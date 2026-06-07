@@ -3915,7 +3915,7 @@ function buildContactPanel(){
       <div style="position:relative;z-index:1;">
         <div id="owner-contact-photo-wrap" style="margin-bottom:10px;"><div style="font-size:40px;">✦</div></div>
         <div style="font-family:var(--font-display);font-size:22px;font-weight:600;color:#f0ece4;margin-bottom:4px;text-shadow:0 2px 8px rgba(0,0,0,0.8);"><span id="bit-owner-name"></span></div>
-        <div style="font-size:14px;color:rgba(240,236,228,0.75);letter-spacing:1px;text-shadow:0 1px 4px rgba(0,0,0,0.7);">050-633-1891</div>
+        <div style="font-size:14px;color:rgba(240,236,228,0.75);letter-spacing:1px;text-shadow:0 1px 4px rgba(0,0,0,0.7);"><span id="bit-phone-display"></span></div>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:10px;">
@@ -6337,7 +6337,7 @@ function checkMissedReminders(){
 // ════════════════════════════════════════════
 // BIT PAYMENT
 // ════════════════════════════════════════════
-const BIT_PHONE='0506331891';
+const BIT_PHONE=APP_CONFIG.bitPhone;
 
 function openBitPayment(){
   closeAllOverlays();
@@ -6521,7 +6521,7 @@ const _FCM_VAPID = APP_CONFIG.firebase.vapidKey;
 // רשום Service Worker ובקש טוקן FCM — רק למנהל
 window._fcmInit = async function(){
   try{
-    const sw = await navigator.serviceWorker.register('/Meever-ldimyon/firebase-messaging-sw.js');
+    const sw = await navigator.serviceWorker.register(APP_CONFIG.repoPath+'/firebase-messaging-sw.js');
     const token = await getToken(_fbMsg, { vapidKey: _FCM_VAPID, serviceWorkerRegistration: sw });
     if(token){
       // שמור טוקן ב-Firebase כדי לשלוח התראות ממכשירים אחרים
@@ -6694,5 +6694,6 @@ window.addEventListener('load', function(){
   var bbn=document.getElementById('bit-business-name'); if(bbn) bbn.textContent=bn;
   var hbn=document.getElementById('home-business-name'); if(hbn) hbn.textContent=bn;
   document.querySelectorAll('.config-business-name').forEach(function(el){ el.textContent=bn; });
+  var bpd=document.getElementById('bit-phone-display'); if(bpd) bpd.textContent=APP_CONFIG.bitPhoneDisplay;
 });
 </script>
