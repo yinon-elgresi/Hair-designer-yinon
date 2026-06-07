@@ -3924,14 +3924,14 @@ function buildContactPanel(){
 }
 
 function buildLocationPanel(){
-  const q=encodeURIComponent('ארלוזורוב 4 קריית שמונה');
+  const q=encodeURIComponent(APP_CONFIG.address);
   return `
     <div class="panel-header"><div class="panel-title">מיקום העסק</div><button class="panel-close" onclick="closePanel()">✕</button></div>
     <div class="gold-rule"></div>
     <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;">
       <div style="width:38px;height:38px;border-radius:10px;background:rgba(197,161,81,0.1);border:1px solid rgba(197,161,81,0.25);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">📍</div>
       <div><div style="font-size:15px;font-weight:600;color:var(--white);margin-bottom:3px;"><span id="bit-business-name"></span></div>
-      <div style="font-size:13px;color:#ffffff;line-height:1.7;">ארלוזורוב 4, קריית שמונה, מתחם אגד</div></div>
+      <div style="font-size:13px;color:#ffffff;line-height:1.7;">${APP_CONFIG.address}</div></div>
     </div>
     <div style="border-radius:14px;overflow:hidden;border:1px solid rgba(197,161,81,0.18);margin-bottom:14px;">
       <iframe src="https://maps.google.com/maps?q=${q}&output=embed&hl=he&z=16" width="100%" height="180" style="display:block;border:none;filter:grayscale(30%) contrast(1.1);" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
