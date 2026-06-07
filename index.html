@@ -1581,7 +1581,7 @@ input, textarea, select {
     <div class="modal-logo">
       <span class="scissors">✦</span>
       <h1 id="owner-auth-name">טוען...</h1>
-      <p>Hair Design Studio</p>
+      <p id="setup-badge-name">טוען...</p>
     </div>
     <div class="gold-rule"></div>
     <p style="text-align:center;font-size:12px;color:var(--muted);letter-spacing:0.5px;">בחרו כיצד להמשיך</p>
@@ -1829,7 +1829,7 @@ input, textarea, select {
   <div class="home-inner">
     <!-- Header -->
     <div class="home-header animate-in">
-      <div class="home-badge"><span class="badge-star">✦</span> Hair Design Studio <span class="badge-star">✦</span></div>
+      <div class="home-badge"><span class="badge-star">✦</span> <span id="home-badge-name">טוען...</span> <span class="badge-star">✦</span></div>
       <h1 class="salon-title">
         <span id="home-business-name"></span>
       </h1>
@@ -3914,8 +3914,8 @@ function buildContactPanel(){
       <div style="position:absolute;inset:0;background:rgba(0,0,0,0.48);border-radius:14px;"></div>
       <div style="position:relative;z-index:1;">
         <div id="owner-contact-photo-wrap" style="margin-bottom:10px;"><div style="font-size:40px;">✦</div></div>
-        <div style="font-family:var(--font-display);font-size:22px;font-weight:600;color:#f0ece4;margin-bottom:4px;text-shadow:0 2px 8px rgba(0,0,0,0.8);"><span id="bit-owner-name"></span></div>
-        <div style="font-size:14px;color:rgba(240,236,228,0.75);letter-spacing:1px;text-shadow:0 1px 4px rgba(0,0,0,0.7);"><span id="bit-phone-display"></span></div>
+        <div style="font-family:var(--font-display);font-size:22px;font-weight:600;color:#f0ece4;margin-bottom:4px;text-shadow:0 2px 8px rgba(0,0,0,0.8);">${APP_CONFIG.ownerName}</div>
+        <div style="font-size:14px;color:rgba(240,236,228,0.75);letter-spacing:1px;text-shadow:0 1px 4px rgba(0,0,0,0.7);">${APP_CONFIG.bitPhoneDisplay}</div>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:10px;">
@@ -6691,9 +6691,13 @@ window.addEventListener('load', function(){
   var cn2=document.getElementById('owner-card-name2'); if(cn2) cn2.textContent=on;
   var oin=document.getElementById('owner-inline-name'); if(oin) oin.textContent=on+' וצוותו';
   var bon=document.getElementById('bit-owner-name'); if(bon) bon.textContent=on;
+  var con=document.getElementById('contact-owner-name'); if(con) con.textContent=on;
+  var cpd=document.getElementById('contact-phone-display'); if(cpd) cpd.textContent=APP_CONFIG.bitPhoneDisplay;
   var bbn=document.getElementById('bit-business-name'); if(bbn) bbn.textContent=bn;
   var hbn=document.getElementById('home-business-name'); if(hbn) hbn.textContent=bn;
   document.querySelectorAll('.config-business-name').forEach(function(el){ el.textContent=bn; });
+  var sbn=document.getElementById('setup-badge-name'); if(sbn) sbn.textContent=APP_CONFIG.businessName;
+  var hbn2=document.getElementById('home-badge-name'); if(hbn2) hbn2.textContent=APP_CONFIG.businessName;
   var bpd=document.getElementById('bit-phone-display'); if(bpd) bpd.textContent=APP_CONFIG.bitPhoneDisplay;
 });
 </script>
