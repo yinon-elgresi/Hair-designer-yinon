@@ -3282,8 +3282,7 @@ function getFreeToday(){
   const dayIndexMap={"א׳":0,"ב׳":1,"ג׳":2,"ד׳":3,"ה׳":4,"ו׳":5,"ש׳":6};
   const dayKey=DAYS.find(k=>dayIndexMap[k]===todayJs);
   if(!dayKey||OFF_DAYS.has(dayKey)) return 0;
-  // שישי — אין תורים, רשימת המתנה בלבד
-  if(dayKey==="ו׳") return 0;
+  
   // ספור רק slots שעוד לא עברו
   const isFriday=(dayKey==="ו׳");
   const futureSlots=SLOTS.filter(t=>{
@@ -4389,19 +4388,7 @@ function renderCalBody(){
   const isFriday=(d==="ו׳");
   const isErev=!isFriday&&isErevHoliday(isoDateStr);
   const erevName=isErev?getErevHolidayName(isoDateStr):'';
-  // חלון הודעה ביום שישי — רק ללקוח, פעם אחת בכניסה
-  if(isFriday&&!state.isOwner){
-    setTimeout(()=>{
-      showConfirm({
-        icon:'📋',
-        title:'יום שישי — רשימת המתנה',
-        sub:'ביום שישי לא ניתן לקבוע תור ישירות.\n\nכניסה לתור מתאפשרת דרך רשימת ההמתנה בלבד — הרשימה נפתחת בכל יום שישי בשעה 10:00 בבוקר.',
-        okLabel:'פתח רשימת המתנה ⏳',
-        okClass:'confirm-btn-ok-gold',
-        onOk:()=>{closeConfirm();openWaitlistPanel();}
-      });
-    },300);
-  }
+
   // חלון הודעה בערב חג — רק ללקוח
   if(isErev&&!state.isOwner){
     setTimeout(()=>{
@@ -4458,8 +4445,16 @@ function renderCalBody(){
         return;
       }
     }
-    // שישי / ערב חג — כל השעות סגורות לחלוטין, רשימת המתנה בלבד
-    if(isFriday||isErev){
+    // שישי — סגור אחרי 15:00
+    if(isFriday){
+      const [hh,mm]=time.split(':').map(Number);
+      if(hh*60+mm>=15*60){
+        cells+=`<div class="slot slot-closed"><div class="slot-time">${time}</div><div class="slot-sub">סגור</div></div>`;
+        return;
+      }
+    }
+    // ערב חג — כל השעות רשימת המתנה
+    if(isErev){
       cells+=`<div class="slot slot-closed"><div class="slot-time">${time}</div><div class="slot-sub">רשימת המתנה</div></div>`;
       return;
     }
@@ -5817,19 +5812,17 @@ function updateWaitlistBubble(){
 }
 
 function openWaitlistPanel(){
-  // ביום שישי / ערב חג — רשימת המתנה נפתחת רק מ-10:00
+  // ערב חג — רשימת המתנה נפתחת רק מ-10:00
   if(!state.isOwner){
     const now=new Date();
-    const isFriday=now.getDay()===5;
     const hour=now.getHours();
     const todayIso=now.toISOString().slice(0,10);
     const todayIsErev=isErevHoliday(todayIso);
-    if((isFriday||todayIsErev)&&hour<10){
-      const dayLabel=isFriday?'ביום שישי':'ב'+getErevHolidayName(todayIso);
+    if(todayIsErev&&hour<10){
       showConfirm({
         icon:'⏰',
         title:'רשימת ההמתנה עדיין סגורה',
-        sub:dayLabel+' רשימת ההמתנה נפתחת בשעה 10:00 בבוקר.\n\nניתן להירשם החל מהשעה 10:00.',
+        sub:'ב'+getErevHolidayName(todayIso)+' רשימת ההמתנה נפתחת בשעה 10:00 בבוקר.\n\nניתן להירשם החל מהשעה 10:00.',
         okLabel:'הבנתי',
         okClass:'confirm-btn-ok-gold',
         onOk:()=>closeConfirm()
